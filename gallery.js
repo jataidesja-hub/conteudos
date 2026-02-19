@@ -13,6 +13,15 @@ const modalDate = document.getElementById('modal-date');
 const modalDownload = document.getElementById('modal-download');
 const modalClose = document.querySelector('.modal-close');
 
+// Função para converter link do Drive em link direto de visualização
+function getDirectLink(url) {
+    const fileId = url.match(/[-\w]{25,}/);
+    if (fileId) {
+        return `https://drive.google.com/uc?export=view&id=${fileId[0]}`;
+    }
+    return url;
+}
+
 async function loadGallery() {
     galleryGrid.innerHTML = '';
     galleryLoader.classList.remove('hidden');
@@ -37,18 +46,19 @@ async function loadGallery() {
                 card.className = 'gallery-item';
 
                 const isVideo = item.type.includes('video');
+                const directUrl = getDirectLink(item.url);
 
                 card.innerHTML = `
                     ${isVideo ?
-                        `<video src="${item.url}"></video>` :
-                        `<img src="${item.url}" alt="${item.name}">`
+                        `<video src="${directUrl}"></video>` :
+                        `<img src="${directUrl}" alt="${item.name}">`
                     }
                     <div class="item-info">
                         <p>${item.name}</p>
                     </div>
                 `;
 
-                card.onclick = () => openModal(item);
+                card.onclick = () => openModal({ ...item, directUrl });
                 galleryGrid.appendChild(card);
             });
         } else {
@@ -63,9 +73,11 @@ async function loadGallery() {
 
 function openModal(item) {
     const isVideo = item.type.includes('video');
+    const mediaUrl = item.directUrl || getDirectLink(item.url);
+
     modalBody.innerHTML = isVideo ?
-        `<video src="${item.url}" controls autoplay></video>` :
-        `<img src="${item.url}">`;
+        `<video src="${mediaUrl}" controls autoplay></video>` :
+        `<img src="${mediaUrl}">`;
 
     modalTitle.innerText = item.name;
     modalDate.innerText = `Enviado em: ${new Date(item.date).toLocaleString('pt-BR')}`;
