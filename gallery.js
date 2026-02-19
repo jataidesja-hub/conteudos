@@ -62,9 +62,6 @@ async function loadGallery() {
                     }
                         <img src="${isVideo ? getDirectLink(item.url, false) : directUrl}" alt="${item.name}">
                     </div>
-                    <div class="item-info">
-                        <p>${item.name}</p>
-                    </div>
                 `;
 
                 card.onclick = () => openModal({ ...item, directUrl });
@@ -87,10 +84,6 @@ function openModal(item) {
     modalBody.innerHTML = isVideo ?
         `<iframe src="${mediaUrl}" width="100%" height="400px" frameborder="0" allow="autoplay"></iframe>` :
         `<img src="${mediaUrl}">`;
-
-    modalTitle.innerText = item.name;
-    modalDate.innerText = `Enviado em: ${new Date(item.date).toLocaleString('pt-BR')}`;
-    modalDownload.href = item.url;
 
     mediaModal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
