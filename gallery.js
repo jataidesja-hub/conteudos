@@ -19,8 +19,15 @@ async function loadGallery() {
     galleryEmpty.classList.add('hidden');
 
     try {
+        console.log('Buscando dados em:', APPS_SCRIPT_URL);
         const response = await fetch(APPS_SCRIPT_URL);
+
+        if (!response.ok) {
+            throw new Error(`Erro na resposta do servidor: ${response.status}`);
+        }
+
         const result = await response.json();
+        console.log('Resultado da galeria:', result);
 
         galleryLoader.classList.add('hidden');
 
