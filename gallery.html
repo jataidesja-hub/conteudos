@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Galeria | MediaVault</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <main class="container">
+        <header class="header">
+            <h1>Media<span>Vault</span></h1>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-btn">Upload</a>
+                <a href="gallery.html" class="nav-btn active">Minha Galeria</a>
+            </nav>
+        </header>
+
+        <section id="gallery-section" class="view-section">
+            <div id="gallery-grid" class="gallery-grid">
+                <!-- Media items injected here -->
+            </div>
+            <div id="gallery-loader" class="loader">Carregando galeria...</div>
+            <div id="gallery-empty" class="empty-state hidden">Nenhum arquivo encontrado.</div>
+        </section>
+    </main>
+
+    <!-- Media Viewer Modal -->
+    <div id="media-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div id="modal-body"></div>
+            <div class="modal-footer">
+                <h3 id="modal-title"></h3>
+                <p id="modal-date"></p>
+                <a id="modal-download" href="#" target="_blank" class="btn-primary">Ver no Drive</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="gallery.js"></script>
+</body>
+
+</html>

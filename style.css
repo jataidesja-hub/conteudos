@@ -291,29 +291,36 @@ body {
     background: #ef4444;
 }
 
-/* Navigation Tabs */
-.nav-tabs {
+/* Navigation Links */
+.nav-links {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: 1.5rem;
     margin-top: 1.5rem;
 }
 
-.tab-btn {
-    background: transparent;
-    border: none;
+.nav-btn {
+    text-decoration: none;
     color: var(--text-muted);
-    padding: 0.5rem 1.5rem;
+    padding: 0.6rem 2rem;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    border-bottom: 2px solid transparent;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
     transition: all 0.3s;
 }
 
-.tab-btn.active {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary);
+}
+
+.nav-btn.active {
+    color: white;
+    background: var(--primary);
+    border-color: var(--primary);
 }
 
 .view-section {
