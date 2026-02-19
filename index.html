@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,11 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <div class="background-blobs">
         <div class="blob blob-1"></div>
@@ -18,51 +22,85 @@
     <main class="container">
         <header class="header">
             <h1>Media<span>Vault</span></h1>
-            <p>Faça upload de fotos e vídeos para o seu Google Drive com facilidade.</p>
+            <nav class="nav-tabs">
+                <button id="tab-upload" class="tab-btn active">Upload</button>
+                <button id="tab-gallery" class="tab-btn">Minha Galeria</button>
+            </nav>
         </header>
 
-        <section class="upload-card">
-            <div id="drop-area" class="drop-area">
-                <input type="file" id="file-input" accept="image/*,video/*" multiple hidden>
-                <div class="drop-content">
-                    <div class="upload-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 16V8M12 8L9 11M12 8L15 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M3 15V16C3 18.2091 4.79086 20 7 20H17C19.2091 20 21 18.2091 21 16V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M3 9V8C3 5.79086 4.79086 4 7 4H17C19.2091 4 21 5.79086 21 8V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+        <section id="upload-section" class="view-section">
+            <div class="upload-card">
+                <div id="drop-area" class="drop-area">
+                    <input type="file" id="file-input" accept="image/*,video/*" multiple hidden>
+                    <div class="drop-content">
+                        <div class="upload-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 16V8M12 8L9 11M12 8L15 11" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M3 15V16C3 18.2091 4.79086 20 7 20H17C19.2091 20 21 18.2091 21 16V15"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M3 9V8C3 5.79086 4.79086 4 7 4H17C19.2091 4 21 5.79086 21 8V9"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <h2>Arraste arquivos ou clique para selecionar</h2>
+                        <p>Suporta Imagens e Vídeos</p>
+                        <button class="btn-primary" onclick="document.getElementById('file-input').click()">Selecionar
+                            Arquivos</button>
                     </div>
-                    <h2>Arraste arquivos ou clique para selecionar</h2>
-                    <p>Suporta Imagens e Vídeos</p>
-                    <button class="btn-primary" onclick="document.getElementById('file-input').click()">Selecionar Arquivos</button>
+                </div>
+
+                <div id="preview-container" class="preview-container hidden">
+                    <h3>Arquivos Selecionados</h3>
+                    <div id="file-list" class="file-list"></div>
+                    <div class="upload-actions">
+                        <button id="upload-btn" class="btn-primary btn-upload">Enviar para o Drive</button>
+                        <button id="cancel-btn" class="btn-secondary">Cancelar</button>
+                    </div>
                 </div>
             </div>
 
-            <div id="preview-container" class="preview-container hidden">
-                <h3>Arquivos Selecionados</h3>
-                <div id="file-list" class="file-list"></div>
-                <div class="upload-actions">
-                    <button id="upload-btn" class="btn-primary btn-upload">Enviar para o Drive</button>
-                    <button id="cancel-btn" class="btn-secondary">Cancelar</button>
+            <section id="status-container" class="status-container hidden">
+                <div class="progress-wrapper">
+                    <div class="progress-header">
+                        <span id="status-text">Enviando...</span>
+                        <span id="status-percent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
                 </div>
-            </div>
+            </section>
         </section>
 
-        <section id="status-container" class="status-container hidden">
-            <div class="progress-wrapper">
-                <div class="progress-header">
-                    <span id="status-text">Enviando...</span>
-                    <span id="status-percent">0%</span>
-                </div>
-                <div class="progress-bar">
-                    <div id="progress-fill" class="progress-fill"></div>
-                </div>
+        <section id="gallery-section" class="view-section hidden">
+            <div id="gallery-grid" class="gallery-grid">
+                <!-- Media items will be injected here -->
             </div>
+            <div id="gallery-loader" class="loader hidden">Carregando galeria...</div>
+            <div id="gallery-empty" class="empty-state hidden">Nenhum arquivo encontrado.</div>
         </section>
     </main>
+
+    <!-- Media Viewer Modal -->
+    <div id="media-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div id="modal-body"></div>
+            <div class="modal-footer">
+                <h3 id="modal-title"></h3>
+                <p id="modal-date"></p>
+                <a id="modal-download" href="#" target="_blank" class="btn-primary">Ver no Drive</a>
+            </div>
+        </div>
+    </div>
 
     <div id="toast" class="toast hidden"></div>
 
     <script src="main.js"></script>
 </body>
+
 </html>
