@@ -350,26 +350,50 @@ body {
 
 .gallery-item {
     background: var(--card-bg);
-    border: 1px solid var(--border);
     border-radius: 16px;
     overflow: hidden;
+    border: 1px solid var(--border);
     cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    aspect-ratio: 1;
-    position: relative;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
 }
 
 .gallery-item:hover {
-    transform: scale(1.03);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
     border-color: var(--primary);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.gallery-item img,
-.gallery-item video {
+.media-preview {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+}
+
+.gallery-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.video-overlay svg {
+    width: 48px;
+    height: 48px;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
 }
 
 .gallery-item .item-info {

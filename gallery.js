@@ -13,13 +13,19 @@ const modalDate = document.getElementById('modal-date');
 const modalDownload = document.getElementById('modal-download');
 const modalClose = document.querySelector('.modal-close');
 
-// Função para converter link do Drive em link direto de visualização
-function getDirectLink(url) {
-    const fileId = url.match(/[-\w]{25,}/);
-    if (fileId) {
-        return `https://drive.google.com/uc?export=view&id=${fileId[0]}`;
+// Função para converter link do Drive em link direto ou para iframe
+function getDirectLink(url, isVideo = false) {
+    const fileIdMatch = url.match(/[-\w]{25,}/);
+    if (!fileIdMatch) return url;
+    const fileId = fileIdMatch[0];
+
+    if (isVideo) {
+        // Para vídeos no Google Drive, o iframe com /preview é o mais confiável
+        return `https://drive.google.com/file/d/${fileId}/preview`;
+    } else {
+        // Link de thumbnail em alta resolução para imagens
+        return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
     }
-    return url;
 }
 
 async function loadGallery() {
@@ -46,13 +52,16 @@ async function loadGallery() {
                 card.className = 'gallery-item';
 
                 const isVideo = item.type.includes('video');
-                const directUrl = getDirectLink(item.url);
+                const directUrl = getDirectLink(item.url, isVideo);
 
                 card.innerHTML = `
-                    ${isVideo ?
-                        `<video src="${directUrl}"></video>` :
-                        `<img src="${directUrl}" alt="${item.name}">`
+                    <div class="media-preview">
+                        ${isVideo ?
+                        `<div class="video-overlay"><svg viewBox="0 0 24 24"><path fill="white" d="M8 5v14l11-7z"/></svg></div>` :
+                        ''
                     }
+                        <img src="${isVideo ? getDirectLink(item.url, false) : directUrl}" alt="${item.name}">
+                    </div>
                     <div class="item-info">
                         <p>${item.name}</p>
                     </div>
@@ -73,10 +82,10 @@ async function loadGallery() {
 
 function openModal(item) {
     const isVideo = item.type.includes('video');
-    const mediaUrl = item.directUrl || getDirectLink(item.url);
+    const mediaUrl = item.directUrl || getDirectLink(item.url, isVideo);
 
     modalBody.innerHTML = isVideo ?
-        `<video src="${mediaUrl}" controls autoplay></video>` :
+        `<iframe src="${mediaUrl}" width="100%" height="400px" frameborder="0" allow="autoplay"></iframe>` :
         `<img src="${mediaUrl}">`;
 
     modalTitle.innerText = item.name;
