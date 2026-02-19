@@ -1,5 +1,4 @@
-// Configuração - O usuário deve preencher este URL após publicar o Apps Script
-const APPS_SCRIPT_URL = ''; 
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzuMq9CeVI9SRlyxBmeKkLfZ5Yb1KQbkGDT8gh4gKy9C5bFS_1ACpVo3j-K5QmbVAeq1w/exec';
 
 const dropArea = document.getElementById('drop-area');
 const fileInput = document.getElementById('file-input');
@@ -40,7 +39,7 @@ function handleDrop(e) {
     handleFiles(files);
 }
 
-fileInput.addEventListener('change', function() {
+fileInput.addEventListener('change', function () {
     handleFiles(this.files);
 });
 
@@ -52,7 +51,7 @@ function handleFiles(files) {
 
 function updatePreview() {
     fileList.innerHTML = '';
-    
+
     if (selectedFiles.length > 0) {
         previewContainer.classList.remove('hidden');
         dropArea.classList.add('hidden');
@@ -65,7 +64,7 @@ function updatePreview() {
         const reader = new FileReader();
         const item = document.createElement('div');
         item.className = 'file-item';
-        
+
         if (file.type.startsWith('image/')) {
             reader.onload = (e) => {
                 item.innerHTML = `
@@ -80,7 +79,7 @@ function updatePreview() {
                 <span class="file-name">${file.name}</span>
             `;
         }
-        
+
         fileList.appendChild(item);
     });
 }
@@ -99,13 +98,13 @@ uploadBtn.addEventListener('click', async () => {
     uploadBtn.disabled = true;
     cancelBtn.disabled = true;
     statusContainer.classList.remove('hidden');
-    
+
     let successCount = 0;
 
     for (let i = 0; i < selectedFiles.length; i++) {
         const file = selectedFiles[i];
         const progress = ((i / selectedFiles.length) * 100).toFixed(0);
-        
+
         updateStatus(`Enviando ${file.name}...`, progress);
 
         try {
@@ -132,7 +131,7 @@ uploadBtn.addEventListener('click', async () => {
     }
 
     showToast(`${successCount} arquivos enviados com sucesso!`);
-    
+
     setTimeout(() => {
         selectedFiles = [];
         updatePreview();
@@ -162,7 +161,7 @@ function showToast(message, type = 'success') {
     toast.innerText = message;
     toast.className = `toast ${type}`;
     toast.classList.remove('hidden');
-    
+
     setTimeout(() => {
         toast.classList.add('hidden');
     }, 4000);
